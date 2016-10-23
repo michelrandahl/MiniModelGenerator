@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.4.1" xmlns:xmi="http://www.omg.org/spec/XMI/2.4.1">
+<xmi:Documentation exporter="DK-IXL" exporterVersion="0.1"/>
+<interlocking id="mini" version="0.1">
+    <network id="mininetwork">
+        <trackSection id="b10" length="100" type="linear">
+            <neighbor ref="t10" side="up"/>
+        </trackSection>
+        <trackSection id="t10" length="87" type="linear">
+            <neighbor ref="b10" side="down"/>
+            <neighbor ref="t11" side="up"/>
+        </trackSection>
+        <trackSection id="t11" length="26" pointMachine="spskt11" type="point">
+            <neighbor ref="t10" side="stem"/>
+            <neighbor ref="t12" side="plus"/>
+            <neighbor ref="t20" side="minus"/>
+        </trackSection>
+        <trackSection id="t12" length="3783" type="linear">
+            <neighbor ref="t11" side="down"/>
+            <neighbor ref="t13" side="up"/>
+        </trackSection>
+        <trackSection id="t13" length="81" pointMachine="spskt13" type="point">
+            <neighbor ref="t12" side="plus"/>
+            <neighbor ref="t20" side="minus"/>
+            <neighbor ref="t14" side="stem"/>
+        </trackSection>
+        <trackSection id="t14" length="128" type="linear">
+            <neighbor ref="t13" side="down"/>
+            <neighbor ref="b14" side="up"/>
+        </trackSection>
+        <trackSection id="b14" length="128" type="linear">
+            <neighbor ref="t14" side="down"/>
+        </trackSection>
+        <trackSection id="t20" length="76" type="linear">
+            <neighbor ref="t11" side="down"/>
+            <neighbor ref="t13" side="up"/>
+        </trackSection>
+        <markerboard distance="50" id="mb10" mounted="up" track="b10"/>
+        <markerboard distance="50" id="mb11" mounted="down" track="t10"/>
+        <markerboard distance="50" id="mb12" mounted="down" track="t12"/>
+        <markerboard distance="50" id="mb13" mounted="up" track="t12"/>
+        <markerboard distance="50" id="mb14" mounted="up" track="t14"/>
+        <markerboard distance="50" id="mb15" mounted="down" track="b14"/>
+        <markerboard distance="50" id="mb20" mounted="down" track="t20"/>
+        <markerboard distance="50" id="mb21" mounted="up" track="t20"/>
+    </network>
+<routetable id="miniroutetable" network="mininetwork">
+  <route id="r_1a" source="mb10" destination="mb13" dir="up">
+    <condition type='point'  val='plus' ref='t11'/>
+    <condition type='point'  val='minus' ref='t13'/>
+    <condition type='signal' ref='mb11'/>
+    <condition type='signal' ref='mb12'/>
+    <condition type='signal' ref='mb20'/>
+    <condition type='trackvacancy' ref='t10'/>
+    <condition type='trackvacancy' ref='t11'/>
+    <condition type='trackvacancy' ref='t12'/>
+    <condition type='mutualblocking' ref='r_5b'/>
+    <condition type='mutualblocking' ref='r_7_'/>
+    <condition type='mutualblocking' ref='r_6b'/>
+    <condition type='mutualblocking' ref='r_5a'/>
+    <condition type='mutualblocking' ref='r_2a'/>
+    <condition type='mutualblocking' ref='r_1b'/>
+    <condition type='mutualblocking' ref='r_3_'/>
+    <condition type='mutualblocking' ref='r_2b'/>
+    <condition type='mutualblocking' ref='r_4_'/>
+  </route>
+  <route id="r_1b" source="mb10" destination="mb13" dir="up">
+    <condition type='point'  val='plus' ref='t11'/>
+    <condition type='signal' ref='mb11'/>
+    <condition type='signal' ref='mb12'/>
+    <condition type='signal' ref='mb15'/>
+    <condition type='signal' ref='mb20'/>
+    <condition type='signal' ref='mb21'/>
+    <condition type='trackvacancy' ref='t10'/>
+    <condition type='trackvacancy' ref='t11'/>
+    <condition type='trackvacancy' ref='t12'/>
+    <condition type='mutualblocking' ref='r_5b'/>
+    <condition type='mutualblocking' ref='r_6b'/>
+    <condition type='mutualblocking' ref='r_2b'/>
+    <condition type='mutualblocking' ref='r_6a'/>
+    <condition type='mutualblocking' ref='r_2a'/>
+    <condition type='mutualblocking' ref='r_8_'/>
+    <condition type='mutualblocking' ref='r_3_'/>
+    <condition type='mutualblocking' ref='r_7_'/>
+    <condition type='mutualblocking' ref='r_5a'/>
+    <condition type='mutualblocking' ref='r_1a'/>
+  </route>
+  <route id="r_2a" source="mb10" destination="mb21" dir="up">
+    <condition type='point'  val='minus' ref='t11'/>
+    <condition type='point'  val='plus' ref='t13'/>
+    <condition type='signal' ref='mb11'/>
+    <condition type='signal' ref='mb12'/>
+    <condition type='signal' ref='mb20'/>
+    <condition type='trackvacancy' ref='t10'/>
+    <condition type='trackvacancy' ref='t11'/>
+    <condition type='trackvacancy' ref='t20'/>
+    <condition type='mutualblocking' ref='r_6a'/>
+    <condition type='mutualblocking' ref='r_7_'/>
+    <condition type='mutualblocking' ref='r_3_'/>
+    <condition type='mutualblocking' ref='r_2b'/>
+    <condition type='mutualblocking' ref='r_5b'/>
+    <condition type='mutualblocking' ref='r_6b'/>
+    <condition type='mutualblocking' ref='r_8_'/>
+    <condition type='mutualblocking' ref='r_1a'/>
+    <condition type='mutualblocking' ref='r_1b'/>
+  </route>
+  <route id="r_2b" source="mb10" destination="mb21" dir="up">
+    <condition type='point'  val='minus' ref='t11'/>
+    <condition type='signal' ref='mb11'/>
+    <condition type='signal' ref='mb12'/>
+    <condition type='signal' ref='mb13'/>
+    <condition type='signal' ref='mb15'/>
+    <condition type='signal' ref='mb20'/>
+    <condition type='trackvacancy' ref='t10'/>
+    <condition type='trackvacancy' ref='t11'/>
+    <condition type='trackvacancy' ref='t20'/>
+    <condition type='mutualblocking' ref='r_6b'/>
+    <condition type='mutualblocking' ref='r_5b'/>
+    <condition type='mutualblocking' ref='r_7_'/>
+    <condition type='mutualblocking' ref='r_5a'/>
+    <condition type='mutualblocking' ref='r_3_'/>
+    <condition type='mutualblocking' ref='r_4_'/>
+    <condition type='mutualblocking' ref='r_6a'/>
+    <condition type='mutualblocking' ref='r_1b'/>
+    <condition type='mutualblocking' ref='r_2a'/>
+    <condition type='mutualblocking' ref='r_1a'/>
+  </route>
+  <route id="r_3_" source="mb12" destination="mb11" dir="down">
+    <condition type='point'  val='plus' ref='t11'/>
+    <condition type='signal' ref='mb10'/>
+    <condition type='signal' ref='mb20'/>
+    <condition type='trackvacancy' ref='t11'/>
+    <condition type='trackvacancy' ref='t10'/>
+    <condition type='mutualblocking' ref='r_5a'/>
+    <condition type='mutualblocking' ref='r_6b'/>
+    <condition type='mutualblocking' ref='r_7_'/>
+    <condition type='mutualblocking' ref='r_2a'/>
+    <condition type='mutualblocking' ref='r_1b'/>
+    <condition type='mutualblocking' ref='r_2b'/>
+    <condition type='mutualblocking' ref='r_1a'/>
+  </route>
+    <route id="r_4_" source="mb13" destination="mb14" dir="up">
+    <condition type='point'  val='plus' ref='t13'/>
+    <condition type='signal' ref='mb15'/>
+    <condition type='signal' ref='mb21'/>
+    <condition type='trackvacancy' ref='t13'/>
+    <condition type='trackvacancy' ref='t14'/>
+    <condition type='mutualblocking' ref='r_6b'/>
+    <condition type='mutualblocking' ref='r_5a'/>
+    <condition type='mutualblocking' ref='r_6a'/>
+    <condition type='mutualblocking' ref='r_5b'/>
+    <condition type='mutualblocking' ref='r_8_'/>
+    <condition type='mutualblocking' ref='r_1a'/>
+    <condition type='mutualblocking' ref='r_2b'/>
+  </route>
+  <route id="r_5a" source="mb15" destination="mb12" dir="down">
+    <condition type='point'  val='minus' ref='t11'/>
+    <condition type='point'  val='plus' ref='t13'/>
+    <condition type='signal' ref='mb13'/>
+    <condition type='signal' ref='mb14'/>
+    <condition type='signal' ref='mb21'/>
+    <condition type='trackvacancy' ref='t14'/>
+    <condition type='trackvacancy' ref='t13'/>
+    <condition type='trackvacancy' ref='t12'/>
+    <condition type='mutualblocking' ref='r_6b'/>
+    <condition type='mutualblocking' ref='r_5b'/>
+    <condition type='mutualblocking' ref='r_6a'/>
+    <condition type='mutualblocking' ref='r_8_'/>
+    <condition type='mutualblocking' ref='r_3_'/>
+    <condition type='mutualblocking' ref='r_1a'/>
+    <condition type='mutualblocking' ref='r_4_'/>
+    <condition type='mutualblocking' ref='r_2b'/>
+    <condition type='mutualblocking' ref='r_1b'/>
+  </route>
+  <route id="r_5b" source="mb15" destination="mb12" dir="down">
+    <condition type='point'  val='plus' ref='t13'/>
+    <condition type='signal' ref='mb10'/>
+    <condition type='signal' ref='mb13'/>
+    <condition type='signal' ref='mb14'/>
+    <condition type='signal' ref='mb20'/>
+    <condition type='signal' ref='mb21'/>
+    <condition type='trackvacancy' ref='t14'/>
+    <condition type='trackvacancy' ref='t13'/>
+    <condition type='trackvacancy' ref='t12'/>
+    <condition type='mutualblocking' ref='r_7_'/>
+    <condition type='mutualblocking' ref='r_6b'/>
+    <condition type='mutualblocking' ref='r_6a'/>
+    <condition type='mutualblocking' ref='r_8_'/>
+    <condition type='mutualblocking' ref='r_1a'/>
+    <condition type='mutualblocking' ref='r_2b'/>
+    <condition type='mutualblocking' ref='r_1b'/>
+    <condition type='mutualblocking' ref='r_4_'/>
+    <condition type='mutualblocking' ref='r_5a'/>
+    <condition type='mutualblocking' ref='r_2a'/>
+  </route>
+  <route id="r_6a" source="mb15" destination="mb20" dir="down">
+    <condition type='point'  val='plus' ref='t11'/>
+    <condition type='point'  val='minus' ref='t13'/>
+    <condition type='signal' ref='mb13'/>
+    <condition type='signal' ref='mb14'/>
+    <condition type='signal' ref='mb21'/>
+    <condition type='trackvacancy' ref='t14'/>
+    <condition type='trackvacancy' ref='t13'/>
+    <condition type='trackvacancy' ref='t20'/>
+    <condition type='mutualblocking' ref='r_8_'/>
+    <condition type='mutualblocking' ref='r_6b'/>
+    <condition type='mutualblocking' ref='r_7_'/>
+    <condition type='mutualblocking' ref='r_2a'/>
+    <condition type='mutualblocking' ref='r_1b'/>
+    <condition type='mutualblocking' ref='r_4_'/>
+    <condition type='mutualblocking' ref='r_5b'/>
+    <condition type='mutualblocking' ref='r_5a'/>
+    <condition type='mutualblocking' ref='r_2b'/>
+  </route>
+  <route id="r_6b" source="mb15" destination="mb20" dir="down">
+    <condition type='point'  val='minus' ref='t13'/>
+    <condition type='signal' ref='mb10'/>
+    <condition type='signal' ref='mb12'/>
+    <condition type='signal' ref='mb13'/>
+    <condition type='signal' ref='mb14'/>
+    <condition type='signal' ref='mb21'/>
+    <condition type='trackvacancy' ref='t14'/>
+    <condition type='trackvacancy' ref='t13'/>
+    <condition type='trackvacancy' ref='t20'/>
+    <condition type='mutualblocking' ref='r_8_'/>
+    <condition type='mutualblocking' ref='r_3_'/>
+    <condition type='mutualblocking' ref='r_5a'/>
+    <condition type='mutualblocking' ref='r_2b'/>
+    <condition type='mutualblocking' ref='r_1b'/>
+    <condition type='mutualblocking' ref='r_4_'/>
+    <condition type='mutualblocking' ref='r_1a'/>
+    <condition type='mutualblocking' ref='r_5b'/>
+    <condition type='mutualblocking' ref='r_6a'/>
+    <condition type='mutualblocking' ref='r_2a'/>
+  </route>
+  <route id="r_7_" source="mb20" destination="mb11" dir="down">
+    <condition type='point'  val='minus' ref='t11'/>
+    <condition type='signal' ref='mb10'/>
+    <condition type='signal' ref='mb12'/>
+    <condition type='trackvacancy' ref='t11'/>
+    <condition type='trackvacancy' ref='t10'/>
+    <condition type='mutualblocking' ref='r_2a'/>
+    <condition type='mutualblocking' ref='r_1a'/>
+    <condition type='mutualblocking' ref='r_2b'/>
+    <condition type='mutualblocking' ref='r_5b'/>
+    <condition type='mutualblocking' ref='r_1b'/>
+    <condition type='mutualblocking' ref='r_3_'/>
+    <condition type='mutualblocking' ref='r_6a'/>
+  </route>
+  <route id="r_8_" source="mb21" destination="mb14" dir="up">
+    <condition type='point'  val='minus' ref='t13'/>
+    <condition type='signal' ref='mb13'/>
+    <condition type='signal' ref='mb15'/>
+    <condition type='trackvacancy' ref='t13'/>
+    <condition type='trackvacancy' ref='t14'/>
+    <condition type='mutualblocking' ref='r_6a'/>
+    <condition type='mutualblocking' ref='r_6b'/>
+    <condition type='mutualblocking' ref='r_1b'/>
+    <condition type='mutualblocking' ref='r_5b'/>
+    <condition type='mutualblocking' ref='r_4_'/>
+    <condition type='mutualblocking' ref='r_5a'/>
+    <condition type='mutualblocking' ref='r_2a'/>
+  </route>
+</routetable>
+</interlocking>
+</xmi:XMI>
