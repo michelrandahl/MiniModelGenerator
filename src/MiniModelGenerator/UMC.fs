@@ -59,7 +59,7 @@ module AbstractionDefinitions =
         |> stringGenerator
 
     let withTrainModelRep : Train -> (string -> string) -> string =
-        fun {id=id} stringGenerator  ->
+        fun {id=id} stringGenerator ->
         TrainId.modelRepresentation id
         |> stringGenerator
 
@@ -69,7 +69,9 @@ module AbstractionDefinitions =
             | Plus  -> withPointModelRep point (sprintf "%s_in_plus")
             | Minus -> withPointModelRep point (sprintf "%s_in_minus")
         let predicate = fun point ->
-            withPointModelRep point (sprintf "%s.current_position = True")
+            match position with
+            | Plus  -> withPointModelRep point (sprintf "%s.current_position = True")
+            | Minus -> withPointModelRep point (sprintf "%s.current_position = False")
         { name = name
         ; abstraction_type = State
         ; predicate = predicate }
@@ -157,6 +159,12 @@ module AbstractionDefinitions =
         ; abstraction_type = Action
         ; predicate = fun _ -> "lostevent" }
 
+    let pointMalfunction : Abstraction<Point> =
+        let pointModelRep = fun p -> PointId.modelRepresentation p.id
+        { name = fun p -> sprintf "%s_malfunction" (pointModelRep p)
+        ; abstraction_type = State
+        ; predicate = fun p -> sprintf "inState(%s.MALFUNCTION)" (pointModelRep p) }
+
     let all_abstraction_declarations (validated_objects : ValidatedModelObjects) : string =
         let (Validated objects) = validated_objects
         let trains : Trains = objects.trainList
@@ -181,12 +189,15 @@ module AbstractionDefinitions =
             |> List.map (abstractionDefinition trainNotOnPoint)
         let discarded_message =
             abstractionDefinition discarded_msg ()
+        let points_malfunction =
+            points |> List.map (abstractionDefinition pointMalfunction)
 
         [ trains_arrived
         ; no_trains_detected_on_points
         ; points_positioning
         ; points_in_plus
         ; points_in_minus
+        ; points_malfunction
         ; [ trains_at_diff_positions ]
         ; trains_not_on_points
         ; [ discarded_message ] ]
@@ -286,6 +297,19 @@ module Properties =
         let points = objects.pointList
 
         interface ModelCheckingPropertyDefinitions with
+            member this.NoMalfunctionsWhenTrainHasNotArrived : string =
+                let p_malfunctions : string =
+                    points
+                    |> Seq.map (fun p -> getAbstractionName p pointMalfunction)
+                    |> String.concat " or "
+                let t_arrivals : string =
+                    trains
+                    |> Seq.map getAbstractionName
+                    |> Seq.map ((|>)trainArrived)
+                    |> String.concat " and "
+                sprintf "not E[not (%s) U (final and not (%s))];"
+                        p_malfunctions t_arrivals
+
             member this.NoCollision : string =
                 all_pairs_of_trains_at_diff_positions
                 |> getAbstractionName trains
@@ -357,6 +381,13 @@ module Properties =
                 -- all trains has arrived at their destinations
                 %s
                 """
+        let no_malfunction_when_train_has_not_arrived =
+            properties.NoMalfunctionsWhenTrainHasNotArrived
+            |> sprintf """
+                -- property that specifies that
+                -- there do not exist a final state where a train has not arrived and a malfunction has occurred
+                %s
+                """
         let trains_detected_on_points =
             properties.TrainsDetectedOnPoints
             |> sprintf """
@@ -374,6 +405,7 @@ module Properties =
         ; no_derailment
         ; trains_detected_on_points
         ; all_trains_arrived
+        ; no_malfunction_when_train_has_not_arrived
         ; all_messages_handled ]
         |> String.concat "\n"
 

@@ -28,7 +28,7 @@ let parseItin arg =
         if Seq.length parsed > 0
         then Ok parsed
         else Error "error in itinerary argument no routes provided"
-          | _ -> Error "error in itinerary argument"
+    | _ -> Error "error in itinerary argument"
 
 let parseInt arg =
     match Int32.TryParse arg with
@@ -74,8 +74,7 @@ let main argv =
               match model_output_type with
               | Raw -> generateModelFromXML parameters
               | UMC ->
-                  { parameters with
-                    modelGeneratorFunction = UMCModelConstruction.composeModel }
+                  { parameters with modelGeneratorFunction = UMCModelConstruction.composeModel }
                   |> generateModelFromXML
           return model }
       match model with

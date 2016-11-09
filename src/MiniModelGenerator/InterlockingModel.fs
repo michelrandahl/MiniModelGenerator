@@ -342,9 +342,9 @@ module LengthConstraints =
         // then the shortest trains track representation must be
         // exactly the length of the shortest train.
         //
-        // Eg. the shortest train length is 2 and the longest train length is 4
-        // furthermore is the longest train track representation 3,
-        // and therefore the shortest trains track representation must be 2
+        // Eg. if the shortest train length is 2 and the longest train length is 4
+        // and the longest train track representation is 3,
+        // then the shortest train track representation must be equal to 2
         if t2.length <= t1_track_length then
             if t2_track_length = t2.length then Ok ()
             else
@@ -417,6 +417,7 @@ module ModelGeneration =
         abstract NoDerailment : string
         abstract TrainsDetectedOnPoints : string
         abstract AllMessagesHandled : string
+        abstract NoMalfunctionsWhenTrainHasNotArrived : string
 
     /// Validates that all trains have a route and that all the routes are valid in the layout
     let private validateTrainRoutes (layout : RailwayNetworkLayout) (objects : ModelObjects)
