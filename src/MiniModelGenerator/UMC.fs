@@ -385,7 +385,8 @@ module Properties =
             properties.NoMalfunctionsWhenTrainHasNotArrived
             |> sprintf """
                 -- property that specifies that
-                -- there do not exist a final state where a train has not arrived and a malfunction has occurred
+                -- there does not exist a final state where at least one train has not arrived
+                -- and in all states leading to this final state, no points have malfunctioned
                 %s
                 """
         let trains_detected_on_points =

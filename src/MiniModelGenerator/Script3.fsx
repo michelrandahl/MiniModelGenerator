@@ -27,7 +27,8 @@ let trains : SimpleTrains =
                   RLinear("4", 3) ]
       ; route_direction = Up } ]
 
-generateUMCModel { trains = trains
-                 ; layout = CustomLayout(network)
-                 ; show_stats = true
-                 ; output_file = Some "mymodel.txt" }
+generateUMCModelWithConstraintedLengths
+    { trains = trains
+    ; layout = CustomLayout(network)
+    ; show_stats = true
+    ; output_file = Some "mymodel.txt" }

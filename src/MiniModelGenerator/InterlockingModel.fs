@@ -438,15 +438,17 @@ module ModelGeneration =
         | Ok ()     -> Ok(Validated objects)
         | Error msg -> Error msg
 
-    let checkLengthContraints (valid_objects : ValidatedModelObjects)
+    let checkLengthContraints (verify_length_constraints : bool) (valid_objects : ValidatedModelObjects)
                               : Result<ValidatedModelObjects, string> =
-        let (Validated objects) = valid_objects
-        let length_constraints_ok =
-            objects.trainList
-            |> LengthConstraints.checkLengthContraints
-        match length_constraints_ok with
-        | Ok ()     -> Ok(Validated objects)
-        | Error msg -> Error msg
+        if not verify_length_constraints then Ok(valid_objects)
+        else
+            let (Validated objects) = valid_objects
+            let length_constraints_ok =
+                objects.trainList
+                |> LengthConstraints.checkLengthContraints
+            match length_constraints_ok with
+            | Ok ()     -> Ok(Validated objects)
+            | Error msg -> Error msg
 
     // Updates all the linears, which are first on a route, to reflect presence of a train
     let updateTrainLocations (Validated objects) : Result<ValidatedModelObjects, string> =
@@ -475,11 +477,11 @@ module ModelGeneration =
     /// Validates the routes,
     /// updates the train locations in the network based on their first route segment,
     /// and generates the final model instantiation using the generateModel function
-    let validateAndGenerateModel (modelGenFun : ModelGeneratorFunction)
+    let validateAndGenerateModel (verify_length_constraints : bool) (modelGenFun : ModelGeneratorFunction)
         : RailwayNetworkLayout -> ModelObjects -> Result<string, string>  =
         fun layout objects ->
         validateTrainRoutes layout objects
-        >>= checkLengthContraints
+        >>= checkLengthContraints verify_length_constraints
         >>= updateTrainLocations
         >>= (modelGenFun >> Ok)
 

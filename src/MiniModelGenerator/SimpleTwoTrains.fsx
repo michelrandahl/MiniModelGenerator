@@ -59,8 +59,9 @@ for i in [1..10] do
     let layout = generateLayout i
     let trains = generateTrains 2 2 layout
     let output_file = sprintf "../../UMCModels/SimpleTwoTrains/model%i.umc" i
-    generateUMCModel { trains = trains
-                     ; layout = CustomLayout layout
-                     ; show_stats = true
-                     ; output_file = Some output_file }
+    generateUMCModelWithConstraintedLengths
+        { trains = trains
+        ; layout = CustomLayout layout
+        ; show_stats = true
+        ; output_file = Some output_file }
 

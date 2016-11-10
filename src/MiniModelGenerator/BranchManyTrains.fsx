@@ -39,11 +39,9 @@ let getRouteTrace layout_map start end' =
             |> loop (LLinear n)
         | Some(LPointStem n) ->
             let result_left =
-                //(LPointFork(n, Plus) :: route) |> loop
                 (RPoint(n, Plus) :: route)
                 |> loop (LPointFork(n, Plus))
             let result_right =
-                //(LPointFork(n, Minus) :: route) |> loop
                 (RPoint(n, Minus) :: route)
                 |> loop (LPointFork(n, Minus))
             match result_left, result_right with
@@ -51,7 +49,6 @@ let getRouteTrace layout_map start end' =
             | [], y::ys -> y::ys
             | _ -> []
         | Some(LPointFork(n,pos)) ->
-            //(LPointStem n :: route) |> loop
             (RPoint(n,pos) :: route)
             |> loop (LPointStem n)
         | None -> []
@@ -79,9 +76,10 @@ let dualBranch (levels : int) (num_trains : int) =
 
 for i in [2..4] do
     let layout, trains = dualBranch 2 i
-    let output_file = sprintf "../../UMCModels/ManyTrains2/model%i.umc" i
-    generateUMCModel { trains = trains
-                     ; layout = CustomLayout layout
-                     ; show_stats = true
-                     ; output_file = Some output_file }
+    let output_file = sprintf "../../UMCModels/ManyTrains/model%i.umc" i
+    generateUMCModelWithConstraintedLengths
+        { trains = trains
+        ; layout = CustomLayout layout
+        ; show_stats = true
+        ; output_file = Some output_file }
 

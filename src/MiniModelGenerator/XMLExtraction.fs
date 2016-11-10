@@ -247,8 +247,8 @@ module ModelGenerationFromXML =
         { modelGeneratorFunction : ModelGeneratorFunction
           xml_file_path : string
           routes : string list list }
-    let generateModelFromXML : ModelGenerationParameters -> Result<string,string> =
-        fun parameters -> resultFlow {
+    let generateModelFromXML : bool -> ModelGenerationParameters -> Result<string,string> =
+        fun enforce_length_constraints parameters -> resultFlow {
         let default_train_length = 2
         let extractRouteFragments : string list -> Result<Route,string> =
             extractRouteFragmentsFromXML parameters.xml_file_path default_train_length
@@ -257,7 +257,8 @@ module ModelGenerationFromXML =
             |> Result<_,_>.traverse extractRouteFragments
 
         let! (layout : RailwayNetworkLayout) = createLayoutFromXML parameters.xml_file_path
-        let validateAndGenerate = validateAndGenerateModel parameters.modelGeneratorFunction
+        let validateAndGenerate =
+            validateAndGenerateModel enforce_length_constraints parameters.modelGeneratorFunction
 
         let train_ids = [0 .. Seq.length routes - 1]
                         |> List.map (sprintf "%i" >> TrainId)

@@ -197,11 +197,10 @@ module ScriptTools =
         ; shared_points = shared_points
         ; shared_linears = shared_linears }
 
-
-    let generateUMCModel (model_args : SimpleModelArgs) : unit =
+    let private generateUMCModel (verify_length_constraints : bool) (model_args : SimpleModelArgs) : unit =
         let validateAndGenerate =
             UMCModelConstruction.composeModel
-            |> validateAndGenerateModel
+            |> validateAndGenerateModel verify_length_constraints
         let output = resultFlow {
             let! layout =
                 match model_args.layout with
@@ -223,3 +222,10 @@ module ScriptTools =
             File.WriteAllText(file_path, output)
             printfn "model written to file %s" file_path
         | Error msg, _ -> printfn "ERROR:\n%s" msg
+
+    let generateUMCModelWithConstraintedLengths (model_args : SimpleModelArgs) : unit =
+        generateUMCModel true model_args
+
+    let generateUMCModelWithNoLengthConstraints (model_args : SimpleModelArgs) : unit =
+        generateUMCModel false model_args
+

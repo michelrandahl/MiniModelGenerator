@@ -42,7 +42,7 @@ let trains : SimpleTrains = [
               ; RLinear(name = "t20", length = 2) ]
     ; route_direction = Down } ]
 
-generateUMCModel {
+generateUMCModelWithConstraintedLengths {
     trains = trains
     layout = XMLLayout path
     show_stats = true

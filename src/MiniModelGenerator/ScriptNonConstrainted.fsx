@@ -1,5 +1,5 @@
 (*
-   Example script for generating a UMC model with a custom layout
+   Example script for generating a UMC model with a custom layout (and no checking for length constraints)
 *)
 
 #load "Prelude.fsx"
@@ -11,16 +11,18 @@ open ScriptingTools
 (* Define the trains and routes to be used in the model *)
 let trains : SimpleTrains =
     [ { id = "1"
-        length = 3
-        route = [ RLinear(name = "1", length = 3)
+        length = 2
+        route = [ RLinear(name = "1", length = 2)
                 ; RPoint(name = "1", position = Plus)
-                ; RLinear(name = "2", length = 2)
+                ; RLinear(name = "2", length = 4)
                 ; RPoint(name = "2", position = Plus)
-                ; RLinear(name = "4", length = 3) ]
+                ; RLinear(name = "4", length = 4)
+                ; RLinear(name = "5", length = 2) ]
         route_direction = Up }
       { id = "2"
         length = 3
-        route = [ RLinear(name = "4", length = 3)
+        route = [ RLinear(name = "5", length = 3)
+                ; RLinear(name = "4", length = 2)
                 ; RPoint(name = "2", position = Minus)
                 ; RLinear(name = "3", length = 3) ]
         route_direction = Down } ]
@@ -33,10 +35,12 @@ let network_layout : SimpleLayout =
     ; LPointFork("1", Minus) <+> LLinear "3"
     ; LLinear "2"            <+> LPointFork("2",Plus)
     ; LLinear "3"            <+> LPointFork("2",Minus)
-    ; LPointStem "2"         <+> LLinear "4" ]
+    ; LPointStem "2"         <+> LLinear "4"
+    ; LLinear "4"            <+> LLinear "5" ]
 
 (* Generate model based on the definitions above *)
-generateUMCModelWithConstraintedLengths
+//generateUMCModelWithConstraintedLengths
+generateUMCModelWithNoLengthConstraints
     { trains = trains
     ; layout = CustomLayout(network_layout)
     ; show_stats = true
